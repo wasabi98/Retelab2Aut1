@@ -16,9 +16,23 @@ public class AdController {
     @Autowired
     private AdRepository adRepository;
 
-    @GetMapping
+    /*@GetMapping
     public List<Ad> getAll(@RequestParam(required = false, defaultValue = "") String keyword) {
         return keyword.equals("") ? adRepository.findAll() : adRepository.findByKeyword(keyword);
+    }*/
+    @GetMapping
+    public List<Ad> getByPrice(@RequestParam(required = false, defaultValue = "") String tempMin, @RequestParam(required = false, defaultValue = "") String tempMax)
+    {
+        int min,max;
+        if(tempMin.equals(""))
+            min = 0;
+        else
+            min = Integer.parseInt(tempMin);
+        if(tempMax.equals(""))
+            max = 10_000_000;
+        else
+            max = Integer.parseInt(tempMax);
+        return adRepository.findByPriceRange(min, max);
     }
 
     @GetMapping("{id}")

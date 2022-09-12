@@ -27,8 +27,12 @@ public class AdRepository {
         return em.find(Ad.class, id);
     }
 
+    public List<Ad> findByPriceRange(int min, int max)
+    {
+        return em.createQuery("SELECT n FROM Ad n WHERE n.price > ?1 AND n.price < ?2", Ad.class).setParameter(1, min).setParameter(2, max).getResultList();
+    }
     public List<Ad> findByKeyword(String keyword) {
-        return em.createQuery("SELECT n FROM Ad n WHERE n.text LIKE ?1", Ad.class).setParameter(1, '%' + keyword + '%').getResultList();
+        return em.createQuery("SELECT n FROM Ad n WHERE n.title LIKE ?1", Ad.class).setParameter(1, '%' + keyword + '%').getResultList();
     }
 
     @Transactional
